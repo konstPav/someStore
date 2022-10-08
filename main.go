@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
+
 	"net/http"
 )
 
@@ -78,13 +79,17 @@ func updateAlbumById(c *gin.Context) {
 	c.IndentedJSON(http.StatusNotFound, error{"bad_request"})
 }
 
-func main() {
+func getRouter() *gin.Engine {
 	router := gin.Default()
 	router.GET("/albums", getAlbums)
 	router.GET("/albums/:id", getAlbumByID)
 	router.DELETE("/albums/:id", deleteAlbumByID)
 	router.POST("/albums/:id", updateAlbumById)
 	router.POST("/albums", postAlbums)
+	return router
+}
 
+func main() {
+	router := getRouter()
 	router.Run("localhost:8080")
 }
